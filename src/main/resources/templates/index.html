@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head::head(title='home')}"></head>
+
+<body>
+  <header th:replace="~{fragments/header :: header(current='home')}"></header>
+  <main>
+    <div class="container-xxl d-flex flex-row justify-content-between align-items-start m-5">
+      <div class="w-50">
+        <h1 th:text="#{welcome.title}"></h1>
+        <h3 th:text="#{welcome.subtitle}"></h3>
+        <p th:text="#{welcome.paragraph.one}"></p>
+        <p th:text="#{welcome.paragraph.two}"></p>
+        <h4 th:text="#{welcome.header.one}"></h4>
+        <p th:text="#{welcome.paragraph.three}"></p>
+        <p th:text="#{welcome.paragraph.four}"></p>
+        <h4 th:text="#{welcome.header.two}"></h4>
+        <p th:text="#{welcome.paragraph.five}"></p>
+        <p th:text="#{welcome.paragraph.six}"></p>
+      </div>
+      <div>
+        <img th:src="@{/images/sailboat.jpg}" alt="sailboat"
+          style="object-fit: cover; width: 600px; height: 600px; object-position: bottom;" class="rounded" />
+      </div>
+    </div>
+  </main>
+
+</body>
+
+</html>

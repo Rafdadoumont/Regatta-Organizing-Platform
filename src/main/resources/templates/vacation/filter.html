@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://java.sun.com/jsf/composite">
+
+<head th:replace="~{fragments/head::head(title='vacation.filter')}"></head>
+
+<body>
+    <header th:replace="~{fragments/header :: header(current='filter-vacation')}"></header>
+    <main>
+        <div th:switch="${vacations}" class="mt-5">
+            <div class="w-75 px-3">
+                <h2 th:text="#{vacation.filter}"></h2>
+                <p th:text="#{vacation.filter.description}" class="text-secundary"></p>
+            </div>
+            <div>
+                <form method="get" th:action="@{/vacation/filter}"
+                    class="d-flex flex-column justify-content-center align-items-center mb-5">
+                    <div class="d-flex flex-row">
+                        <div class="form-outline mb-4 mx-2 mt-5" style="width: 300px;">
+                            <label for="van" th:text="#{van}"></label>
+                            <input type="date" id="van" class="form-control" name="van" th:value="*{van}">
+                        </div>
+                        <div class="form-outline mb-4 mx-2 mt-5" style="width: 300px;">
+                            <label for="tot" th:text="#{tot}"></label>
+                            <input type="date" id="tot" class="form-control" name="tot" th:value="*{tot}">
+                        </div>
+                    </div>
+                    <div th:if="${error}!=null"
+                        class="alert alert-danger mb-4 p-2 rounded d-flex flex-column justify-content-center"
+                        style="width: 624px;">
+                        <span th:text="#{${error}}" class="text-center"></span>
+                    </div>
+                    <button class=" btn btn-primary" type="submit" th:text="#{search}"></button>
+                </form>
+            </div>
+            <div th:if="${vacations != null && #lists.isEmpty(vacations)}" class="px-3">
+                <b th:text="#{vacation.no.result}"></b>
+            </div>
+            <table th:if="${not #lists.isEmpty(vacations)}" class="table table-striped table-responsive-lg">
+                <thead>
+                    <tr>
+                        <th th:text="#{naam}" style="width: 40%;"></th>
+                        <th th:text="#{plaats}" style="width: 20%;"></th>
+                        <th th:text="#{begindatum}" style="width: 20%;"></th>
+                        <th th:text="#{overnachtingen}" style="width: 20%;"></th>
+                        <th sec:authorize="hasRole('ADMIN')" th:text="#{update}" style="width: 25%;"></th>
+                        <th sec:authorize="hasRole('ADMIN')" th:text="#{delete}" style="width: 25%;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="vacation:${vacations}">
+                        <td th:text="${vacation.naam}"></td>
+                        <td th:text="${vacation.plaats}"></td>
+                        <td th:text="${#temporals.format(vacation.begindatum, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${vacation.overnachtingen}"></td>
+                        <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/vacation/update(id=${vacation.getId()})}"
+                                class="btn btn-warning" th:text="#{update}"></a></td>
+                        <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/vacation/delete(id=${vacation.getId()})}"
+                                class="btn btn-danger" th:text="#{delete}"></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+
+</html>

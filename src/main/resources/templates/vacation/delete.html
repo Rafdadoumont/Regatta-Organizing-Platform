@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head::head(title='vacation.delete')}"></head>
+
+<body>
+    <header th:replace="~{fragments/header :: header(current='delete-vacation')}"></header>
+    <main>
+        <div class="d-flex justify-content-center align-items-center mt-5">
+            <div class="w-50 px-3 pb-3">
+                <div th:if="${errorNotFound}!=null" class="d-flex flex-column justify-content-center text-center mt-5">
+                    <div class="alert alert-danger mb-4 p-1 rounded d-flex justify-content-center">
+                        <span th:text="#{${error}}"></span>
+                    </div>
+                    <a th:text="#{vacation.all}" href="/vacation/all" class="btn btn-primary mx-5" />
+                </div>
+                <div th:if="${errorNotFound}==null">
+                    <form th:action="@{/vacation/delete(id=${vacationDto.id})}" th:object="${vacationDto}" method="POST"
+                        class="">
+                        <h2 th:text="#{vacation.delete}"></h2>
+                        <p
+                            th:text="#{vacation.delete.confirmation.pre} + ${vacationDto.getNaam()} + #{vacation.delete.confirmation.post}" />
+                        <table class="table table-striped table-responsive-lg">
+                            <thead>
+                                <tr>
+                                    <th th:text="#{naam}" style="width: 40%;"></th>
+                                    <th th:text="#{plaats}" style="width: 20%;"></th>
+                                    <th th:text="#{begindatum}" style="width: 20%;"></th>
+                                    <th th:text="#{overnachtingen}" style="width: 20%;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td th:text="${vacationDto.naam}"></td>
+                                    <td th:text="${vacationDto.plaats}"></td>
+                                    <td th:text="${#temporals.format(vacationDto.begindatum, 'dd/MM/yyyy')}"></td>
+                                    <td th:text="${vacationDto.overnachtingen}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div th:if="${error}!=null"
+                            class="alert alert-danger mb-4 p-1 rounded d-flex flex-column justify-content-center">
+                            <span th:text="#{${error}}"></span>
+                        </div>
+                        <div class="d-flex flex-row justify-content-center">
+                            <a th:text="#{cancel}" href="/vacation/all" class="btn btn-secondary mr-5"></a>
+                            <button th:text="#{confirm}" type="submit" class="btn btn-primary"></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

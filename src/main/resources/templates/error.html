@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head::head(title='error')}"></head>
+
+<body>
+    <header th:replace="~{fragments/header :: header(current='error')}"></header>
+    <main>
+        <div class="container-lg d-flex flex-column p-2 justify-content-center align-items-center">
+            <div th:switch="${status}">
+                <h1 th:case="'400'" th:text="#{error.bad.request}"></h1>
+                <h1 th:case="'401'" th:text="#{error.unauthorized}"></h1>
+                <h1 th:case="'403'" th:text="#{error.forbidden}"></h1>
+                <h1 th:case="'404'" th:text="#{error.not.found}"></h1>
+                <h1 th:case="'500'" th:text="#{error.internal}"></h1>
+                <h1 th:case="*" th:text="#{error.default}"></h1>
+            </div>
+            <h4 th:if="${status}" th:text="${status + ' ' + error}" />
+            <form name="home" th:action="@{/}" method="post">
+                <p>
+                    <button class="btn btn-primary" type="submit" th:text="#{home}"></button>
+                </p>
+            </form>
+        </div>
+    </main>
+</body>
+
+</html>

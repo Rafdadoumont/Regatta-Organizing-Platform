@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://java.sun.com/jsf/composite">
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
+            <div class="collapse navbar-collapse d-flex justify-content-between">
+                <a class="navbar-brand" href="/">Regatta Platform</a>
+                <ul class="navbar-nav">
+                    <li sec:authorize="isAuthenticated()" class="nav-item"
+                        th:classappend="${current == 'home' ? 'active' : ''}">
+                        <a class="nav-link" href="/" th:text="#{home}"></a>
+                    </li>
+                    <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="/regatta/overview" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{regatta}"
+                            th:classappend="${current.contains('regatta') ? 'active' : ''}">
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a sec:authorize="hasRole('USER')" class="dropdown-item" href="/regatta/overview"
+                                th:text="#{regatta.overview}"></a>
+                            <a sec:authorize="hasRole('USER')" class="dropdown-item" href="/regatta/search"
+                                th:text="#{regatta.search}"></a>
+                            <a sec:authorize="hasRole('ADMIN')" class="dropdown-item" href="/regatta/add"
+                                th:text="#{regatta.add}"></a>
+                        </div>
+                    </li>
+                    <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="/storage/overview" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{storage}"
+                            th:classappend="${current.contains('storage') ? 'active' : ''}">
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a sec:authorize="hasRole('USER')" class="dropdown-item" href="/storage/overview"
+                                th:text="#{storage.overview}"></a>
+                            <a sec:authorize="hasRole('USER')" class="dropdown-item" href="/storage/search"
+                                th:text="#{storage.search}"></a>
+                            <a sec:authorize="hasRole('ADMIN')" class="dropdown-item" href="/storage/add"
+                                th:text="#{storage.add}"></a>
+                        </div>
+                    </li>
+                    <li th:if="${error==null}" class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="/vacation/all" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{vacation}"
+                            th:classappend="${current.contains('vacation') ? 'active' : ''}">
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/vacation/all"
+                                th:text="#{vacation.all}"></a>
+                            <a class="dropdown-item" href="/vacation/filter"
+                                th:text="#{vacation.filter}"></a>
+                            <a sec:authorize="hasRole('USER')" class="dropdown-item" href="/vacation/add"
+                                th:text="#{vacation.add}"></a>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li sec:authorize="isAuthenticated()" class="nav-item"
+                        th:classappend="${current == 'login' ? 'active' : ''}">
+                        <form name="logout" th:action="@{/logout}" method="post">
+                            <button class="btn btn-danger" type="submit" th:text="#{logout}"></button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+</body>
+
+</html>

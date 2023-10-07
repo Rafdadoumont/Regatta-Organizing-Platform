@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head::head(title='vacation.add')}"></head>
+
+<body>
+    <header th:replace="~{fragments/header :: header(current='add-vacation')}"></header>
+    <main>
+        <div class="container-lg d-flex flex-row justify-content-around align-items-center mt-5">
+            <div class="d-flex flex-column">
+                <form method="post" th:action="@{/vacation/add}" th:object="${vacationDto}" novalidate>
+                    <h2 th:text="#{vacation.add}"></h2>
+                    <p th:text="#{vacation.add.description}" class="text-secundary"></p>
+                    <div class="form-outline mb-4" style="width: 400px;">
+                        <label for="naam" class="form-label" th:text="#{naam}"></label>
+                        <input id="naam" th:field="*{naam}" class="form-control" name="naam">
+                        <span th:if="${#fields.hasErrors('naam')}" th:text="#{${#fields.errors('naam')[0]}}"
+                            class="text-danger"></span>
+                    </div>
+                    <div class="form-outline mb-4" style="width: 400px;">
+                        <label for="plaats" class="form-label" th:text="#{plaats}"></label>
+                        <input type="text" th:field="*{plaats}" id="plaats" class="form-control" name="plaats">
+                        <span th:if="${#fields.hasErrors('plaats')}" th:text="#{${#fields.errors('plaats')[0]}}"
+                            class="text-danger"></span>
+                    </div>
+                    <div class="form-outline mb-4" style="width: 400px;">
+                        <label for="begindatum" class="form-label" th:text="#{begindatum}"></label>
+                        <input type="date" th:value="*{begindatum}" id="begindatum" class="form-control"
+                            name="begindatum">
+                        <span th:if="${#fields.hasErrors('begindatum')}" th:text="#{${#fields.errors('begindatum')[0]}}"
+                            class="text-danger"></span>
+                    </div>
+                    <div class="form-outline mb-4" style="width: 400px;">
+                        <label for="overnachtingen" class="form-label" th:text="#{overnachtingen}"></label>
+                        <input type="number" th:value="*{overnachtingen}" id="overnachtingen" class="form-control"
+                            name="overnachtingen">
+                        <span th:if="${#fields.hasErrors('overnachtingen')}"
+                            th:text="#{${#fields.errors('overnachtingen')[0]}}" class="text-danger"></span>
+                    </div>
+                    <div th:if="${error}!=null"
+                        class="alert alert-danger mb-4 p-1 rounded d-flex justify-content-center">
+                        <span th:text="#{${error}}"></span>
+                    </div>
+                    <div class="form-outline mb-4" style="width: 400px;">
+                        <button class="btn btn-primary btn-block fa-lg mb-3" type="submit" th:text="#{add}"></button>
+                    </div>
+                </form>
+            </div>
+            <img th:src="@{/images/vacation.jpeg}" alt="vacation"
+                style="object-fit: cover; width: 600px; height: 600px; object-position: bottom;" class="rounded" />
+        </div>
+    </main>
+</body>
+
+</html>

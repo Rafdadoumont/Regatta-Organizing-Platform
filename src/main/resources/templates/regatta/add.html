@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head::head(title='regatta.add')}">
+</head>
+
+<body>
+    <header th:replace="~{fragments/header :: header(current='add-regatta')}"></header>
+    <main>
+        <div class="container-lg d-flex flex-row justify-content-around align-items-center mt-5">
+            <div class="d-flex flex-column">
+                <form method="post" th:action="@{/regatta/add}" th:object="${regattaDto}" novalidate>
+                    <h2 th:text="#{regatta.add}"></h2>
+                    <p th:text="#{regatta.add.description}" class="text-secundary"></p>
+                    <div class="form-outline mb-4" style="width: 400px;">
+                        <label for="nameCompetition" class="col-form-label" th:text="#{competition}"></label>
+                        <input type="text" th:field="*{nameCompetition}" id="nameCompetition" class="form-control ">
+                        <span th:if="${#fields.hasErrors('nameCompetition')}" th:text="#{${#fields.errors('nameCompetition')[0]}}"
+                            class="text-danger"></span>
+                    </div>
+                    <div class="form-outline mb-4" style="width: 400px;">
+                        <label for="nameClub" class="col-form-label" th:text="#{club}"></label>
+                        <input type="text" th:field="*{nameClub}" id="nameClub" class="form-control ">
+                        <span th:if="${#fields.hasErrors('nameClub')}" th:text="#{${#fields.errors('nameClub')[0]}}"
+                            class="text-danger"></span>
+                    </div>
+                    <div class="form-outline mb-4" style="width: 400px;">
+                        <label for="date" class="col-form-label" th:text="#{date}"></label>
+                        <input type="date" th:field="*{date}" id="date" class="form-control ">
+                        <span th:if="${#fields.hasErrors('date')}" th:text="#{${#fields.errors('date')[0]}}"
+                            class="text-danger"></span>
+                    </div>
+                    <div class="form-outline mb-4" style="width: 400px;">
+                        <label for="maxTeams" class="col-form-label" th:text="#{maxteams}"></label>
+                        <input type="number" th:field="*{maxTeams}" id="maxTeams" min="0" class="form-control ">
+                        <span th:if="${#fields.hasErrors('maxTeams')}" th:text="#{${#fields.errors('maxTeams')[0]}}"
+                            class="text-danger"></span>
+                    </div>
+                    <div class="form-outline mb-4" style="width: 400px;">
+                        <label for="category" class="col-form-label" th:text="#{category}"></label>
+                        <input type="text" th:field="*{category}" id="category" class="form-control ">
+                        <span th:if="${#fields.hasErrors('category')}" th:text="#{${#fields.errors('category')[0]}}"
+                            class="text-danger"></span>
+                    </div>
+                    <div th:if="${error}!=null" class="alert alert-danger mb-4 p-1 rounded d-flex justify-content-center">
+                        <span th:text="#{${error}}"></span>
+                    </div>
+                    <div class="form-outline mb-4" style="width: 400px;">
+                        <button class="btn btn-primary btn-block fa-lg mb-3" type="submit" th:text="#{add}"></button>
+                    </div>
+                </form>
+            </div>
+            <img th:src="@{/images/regatta.jpg}" alt="regatta"
+                style="object-fit: cover; width: 600px; height: 600px; object-position: bottom;" class="rounded" />
+        </div>
+    </main>
+</body>
+
+</html>

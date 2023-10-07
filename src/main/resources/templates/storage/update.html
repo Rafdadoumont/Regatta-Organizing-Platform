@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head::head(title='storage.update')}"></head>
+
+<body>
+    <header th:replace="~{fragments/header :: header(current='update-storage')}"></header>
+    <main>
+        <div class="container-lg d-flex flex-column justify-content-around align-items-center mt-5">
+            <form method="post" th:action="@{'/storage/update/'+${storageDto.id}}" th:object="${storageDto}" novalidate>
+                <h2 th:text="#{storage.update}">
+                </h2>
+                <div class="form-outline mb-4" style="width: 400px;">
+                    <label for="name" class="form-label" th:text="#{name}"></label>
+                    <input id="name" th:field="*{name}" class="form-control" name="name">
+                    <span th:if="${#fields.hasErrors('name')}" th:text="#{${#fields.errors('name')[0]}}"
+                        class="text-danger"></span>
+                </div>
+                <div class="form-outline mb-4" style="width: 400px;">
+                    <label for="postalCode" class="form-label" th:text="#{postalcode}"></label>
+                    <input type="number" th:field="*{postalCode}" id="postalCode" class="form-control"
+                        name="postalCode">
+                        <span th:if="${#fields.hasErrors('postalCode')}" th:text="#{${#fields.errors('postalCode')[0]}}"
+                        class="text-danger"></span>
+                </div>
+                <div class="form-outline mb-4" style="width: 400px;">
+                    <label for="space" class="form-label" th:text="#{space}"></label>
+                    <div class="input-group">
+                        <input type="number" th:value="*{space}" id="space" class="form-control" name="space">
+                        <div class="input-group-append">
+                            <span class="input-group-text">m²</span>
+                        </div>
+                    </div>
+                    <span th:if="${#fields.hasErrors('space')}" th:text="#{${#fields.errors('space')[0]}}"
+                        class="text-danger"></span>
+                </div>
+                <div class="form-outline mb-4" style="width: 400px;">
+                    <label for="height" class="form-label" th:text="#{height}"></label>
+                    <div class="input-group">
+                        <input type="number" th:value="*{height}" id="height" class="form-control" name="height">
+                        <div class="input-group-append">
+                            <span class="input-group-text">m</span>
+                        </div>
+                    </div>
+                    <span th:if="${#fields.hasErrors('height')}" th:text="#{${#fields.errors('height')[0]}}"
+                        class="text-danger"></span>
+                </div>
+                <div th:if="${error}!=null" class="alert alert-danger mb-4 p-1 rounded d-flex justify-content-center">
+                    <span th:text="#{${error}}"></span>
+                </div>
+                <div class="form-outline mb-4 d-flex flex-row justify-content-between" style="width: 400px;">
+                    <a th:text="#{cancel}" href="/storage/overview" class="btn btn-secondary w-25" />
+                    <button class="btn btn-primary w-25" type="submit" th:text="#{update}"></button>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://java.sun.com/jsf/composite">
+
+<head th:replace="~{fragments/head::head(title='regatta.overview')}"></head>
+
+<body>
+  <header th:replace="~{fragments/header :: header(current='overview-regatta')}"></header>
+  <main>
+    <div th:switch="${regattas}" class="mt-5">
+      <div class="w-75 px-3 pb-3">
+        <h2 th:text="#{regatta.overview}"></h2>
+        <p th:text="#{regatta.overview.description}" class="text-secundary"></p>
+        <b th:text="#{sort}" />
+        <div class="d-flex mt-1 mb-3">
+          <form class="mr-3" th:action="@{/regatta/overview/{sort}(sort=club)}">
+            <button class="btn btn-primary" type="submit" th:text="#{club}"></button>
+          </form>
+          <form th:action="@{/regatta/overview/{sort}(sort=date)}">
+            <button class="btn btn-primary" type="submit" th:text="#{date}"></button>
+          </form>
+        </div>
+      </div>
+      <table class="table table-striped table-fixed">
+        <thead>
+          <tr>
+            <th th:text="#{competition}" style="width: 20%;"></th>
+            <th th:text="#{club}" style="width: 20%;"></th>
+            <th th:text="#{date}" style="width: 20%;"></th>
+            <th th:text="#{maxteams}" style="width: 20%;"></th>
+            <th th:text="#{category}" style="width: 20%;"></th>
+            <th sec:authorize="hasRole('ADMIN')" th:text="#{update}" style="width: 20%;"></th>
+            <th sec:authorize="hasRole('ADMIN')" th:text="#{delete}" style="width: 20%;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="regatta:${regattas}">
+            <td th:text="${regatta.nameCompetition}"></td>
+            <td th:text="${regatta.nameClub}"></td>
+            <td th:text="${#temporals.format(regatta.date, 'dd/MM/yyyy')}"></td>
+            <td th:text="${regatta.maxTeams}"></td>
+            <td th:text="${regatta.category}"></td>
+            <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/regatta/update(id=${regatta.id})}"
+                class="btn btn-warning" th:text="#{update}"></a></td>
+            <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/regatta/delete/{id}(id=${regatta.id})}"
+                class="btn btn-danger" th:text="#{delete}"></a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="d-flex justify-content-center">
+      <nav th:if="${regattas.totalPages > 0}">
+        <ul class="pagination">
+          <li th:each="pageNumber : ${#numbers.sequence(0, regattas.getTotalPages()-1, 1)}" class="page-item"
+            th:classappend="${pageNumber==regattas.number} ? active">
+            <a th:href="@{overview(page=${pageNumber})}" th:text="${pageNumber+1}" th:class="page-link"></a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </main>
+</body>
+
+</html>

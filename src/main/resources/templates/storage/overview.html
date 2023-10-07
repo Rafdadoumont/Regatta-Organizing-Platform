@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://java.sun.com/jsf/composite">
+
+<head th:replace="~{fragments/head::head(title='storage.overview')}"></head>
+
+<body>
+    <header th:replace="~{fragments/header :: header(current='overview-storage')}"></header>
+    <main>
+        <div th:switch="${storages}" class="mt-5">
+            <div class="w-75 px-3 pb-3">
+                <h2 th:text="#{storage.overview}"></h2>
+                <p th:text="#{storage.overview.description}" class="text-secundary"></p>
+                <b th:text="#{sort}" />
+                <div class="d-flex mt-1 mb-3">
+                    <form class="mr-3" action="/storage/sort/name">
+                        <button class="btn btn-primary" type="submit" th:text="#{name}"></button>
+                    </form>
+                    <form action="/storage/sort/height">
+                        <button class="btn btn-primary" type="submit" th:text="#{height}"></button>
+                    </form>
+                </div>
+            </div>
+            <table class="table table-striped table-responsive-lg">
+                <thead>
+                    <tr>
+                        <th th:text="#{name}" style="width: 40%;"></th>
+                        <th th:text="#{postalcode}" style="width: 20%;"></th>
+                        <th th:text="#{space}" style="width: 20%;"></th>
+                        <th th:text="#{height}" style="width: 20%;"></th>
+                        <th sec:authorize="hasRole('ADMIN')" th:text="#{update}" style="width: 25%;"></th>
+                        <th sec:authorize="hasRole('ADMIN')" th:text="#{delete}" style="width: 25%;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="storage:${storages}">
+                        <td th:text="${storage.name}"></td>
+                        <td th:text="${storage.postalCode}"></td>
+                        <td th:text="${storage.space} + ' m²'"></td>
+                        <td th:text="${storage.height} + ' m'"></td>
+                        <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/storage/update/{id}(id=${storage.getId()})}"
+                                class="btn btn-warning" th:text="#{update}"></a></td>
+                        <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/storage/delete(id=${storage.getId()})}"
+                                class="btn btn-danger" th:text="#{delete}"></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <div class="d-flex justify-content-center">
+        <nav th:if="${storages.totalPages > 0}">
+            <ul class="pagination">
+                <li th:each="pageNumber : ${#numbers.sequence(0, storages.getTotalPages()-1, 1)}" class="page-item"
+                    th:classappend="${pageNumber==storages.number} ? active">
+                    <a th:href="@{overview(page=${pageNumber})}" th:text="${pageNumber+1}" th:class="page-link"></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head::head(title='regatta.delete')}">
+</head>
+
+<body>
+    <header th:replace="~{fragments/header :: header(current='delete-regatta')}"></header>
+    <main>
+        <div class="d-flex justify-content-center align-items-center mt-5">
+            <div class="w-50 px-3 pb-3">
+                <div th:if="${error}!=null" class="alert alert-danger mb-4 p-1 rounded d-flex justify-content-center">
+                    <span th:text="#{${error}}"></span>
+                </div>
+                <div th:if="${error}==null">
+                    <form th:action="@{'/regatta/delete/'+${regattaDto.id}}" th:object="${regattaDto}" method="POST"
+                        class="d-flex justify-content-center flex-column">
+                        <h2 th:text="#{regatta.delete}"></h2>
+                        <p th:text="#{regatta.delete.confirmation}" />
+                        <table class="table table-striped table-responsive-lg">
+                            <thead>
+                                <tr>
+                                    <th th:text="#{competition}"></th>
+                                    <th th:text="#{club}"></th>
+                                    <th th:text="#{date}"></th>
+                                    <th th:text="#{maxteams}"></th>
+                                    <th th:text="#{category}"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td th:text="${regattaDto.nameCompetition}"></td>
+                                    <td th:text="${regattaDto.nameClub}"></td>
+                                    <td th:text="${#temporals.format(regattaDto.date, 'dd/MM/yyyy')}"></td>
+                                    <td th:text="${regattaDto.maxTeams}"></td>
+                                    <td th:text="${regattaDto.category}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <input type="hidden" th:field="*{nameCompetition}" id="nameCompetition">
+                        <input type="hidden" th:field="*{nameClub}" id="nameClub">
+                        <input type="hidden" th:field="*{date}" id="date">
+                        <input type="hidden" th:field="*{maxTeams}" id="maxTeams">
+                        <input type="hidden" th:field="*{category}" id="category">
+                        <div class="d-flex flex-row justify-content-center">
+                            <a th:text="#{cancel}" href="/regatta/overview" class="btn btn-secondary mr-5" />
+                            <button th:text="#{confirm}" type="submit" class="btn btn-primary"></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
